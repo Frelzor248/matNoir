@@ -14,6 +14,12 @@ public class ArmorSystem : MonoBehaviour
     [SerializeField] private ArmorItem[] legsArmors;
     [SerializeField] private ArmorItem[] feetArmors;
 
+    [Header("Armor Visual Renderers")]
+    [SerializeField] private SpriteRenderer headRenderer;
+    [SerializeField] private SpriteRenderer chestRenderer;
+    [SerializeField] private SpriteRenderer legsRenderer;
+    [SerializeField] private SpriteRenderer feetRenderer;
+
     public ArmorItem HeadArmor => headArmor;
     public ArmorItem ChestArmor => chestArmor;
     public ArmorItem LegsArmor => legsArmor;
@@ -133,6 +139,7 @@ public class ArmorSystem : MonoBehaviour
                 feetArmor = armor;
                 break;
         }
+        UpdateArmorVisuals();
     }
 
     public void UnequipArmor(ArmorSlot slot)
@@ -155,6 +162,7 @@ public class ArmorSystem : MonoBehaviour
                 feetArmor = null;
                 break;
         }
+        UpdateArmorVisuals();
     }
 
     public void TestRandomArmor()
@@ -179,11 +187,46 @@ public class ArmorSystem : MonoBehaviour
             Debug.Log("Feet : " + randomFeet.ArmorName);
     }
 
+    private void Start()
+    {
+        if (EquippedArmorManager.Instance == null)
+        {
+            Debug.LogWarning("EquippedArmorManager introuvable !");
+            return;
+        }
+
+        headArmor = EquippedArmorManager.Instance.HeadArmor;
+        chestArmor = EquippedArmorManager.Instance.ChestArmor;
+        legsArmor = EquippedArmorManager.Instance.LegsArmor;
+        feetArmor = EquippedArmorManager.Instance.FeetArmor;
+
+        UpdateArmorVisuals();
+
+        Debug.Log("Armures synchronisées avec le joueur.");
+    }
+
+
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
             TestRandomArmor();
         }
+    }
+
+    private void UpdateArmorVisuals()
+    {
+        UpdateArmorVisual(headArmor, headRenderer);
+        UpdateArmorVisual(chestArmor, chestRenderer);
+        UpdateArmorVisual(legsArmor, legsRenderer);
+        UpdateArmorVisual(feetArmor, feetRenderer);
+    }
+
+    private void UpdateArmorVisual(ArmorItem armor, SpriteRenderer renderer)
+    {
+        if (renderer == null)
+            return;
+
+        renderer.sprite = armor != null ? armor.ArmorSprite : null;
     }
 }

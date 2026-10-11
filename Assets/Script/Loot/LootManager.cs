@@ -8,6 +8,15 @@ public class LootManager : MonoBehaviour
     [SerializeField] private ArmorItem[] legsArmors;
     [SerializeField] private ArmorItem[] feetArmors;
 
+    [Header("Material Loot")]
+    [SerializeField] private MaterialItem[] materials;
+
+    [Header("Material Quantity")]
+    [SerializeField] private int minMaterialQuantity = 1;
+    [SerializeField] private int maxMaterialQuantity = 3;
+
+    /////////////////////////////Drop d'armure//////////////////////////////////
+
     public ArmorItem GetRandomArmor(LootCategory category)
     {
         ArmorItem[] armors = null;
@@ -94,5 +103,45 @@ public class LootManager : MonoBehaviour
         }
 
         worldItem.Initialize(armor);
+    }
+    
+    //////////////////////////Drop de materiaux///////////////////////////////
+    
+    public void DropMaterial(Vector2 position)
+    {
+        if (materials == null || materials.Length == 0)
+        {
+            Debug.LogWarning("Aucun matériau disponible dans le LootManager.");
+            return;
+        }
+
+        MaterialItem material =
+            materials[Random.Range(0, materials.Length)];
+
+        int quantity =
+            Random.Range(minMaterialQuantity, maxMaterialQuantity + 1);
+
+        GameObject itemObject = Instantiate(
+            material.gameObject,
+            position,
+            Quaternion.identity
+        );
+
+        WorldMaterial worldMaterial =
+            itemObject.GetComponent<WorldMaterial>();
+
+        if (worldMaterial == null)
+        {
+            worldMaterial = itemObject.AddComponent<WorldMaterial>();
+        }
+
+        worldMaterial.Initialize(material, quantity);
+
+        Debug.Log(
+            "Matériau droppé : " +
+            material.MaterialName +
+            " x" +
+            quantity
+        );
     }
 }

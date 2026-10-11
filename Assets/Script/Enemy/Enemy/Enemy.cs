@@ -58,12 +58,14 @@ public class Enemy : MonoBehaviour
 
         if (lootManager != null)
         {
-            lootManager.DropLoot(transform.position);
+            lootManager.DropMaterial(transform.position);  //drop un materiaux
         }
 
         Destroy(gameObject);
     }
 
+
+    //////////////////////////////////////////Distance entre chaque enemy////////////////////////////
     protected Vector2 GetSeparationDirection()
     {
         Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(

@@ -19,6 +19,12 @@ public class InventoryManager : MonoBehaviour
 
         Instance = this;
 
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
+
+        Debug.Log("InventoryManager initialisé : " + gameObject.name);
+
         DontDestroyOnLoad(gameObject);
     }
 

@@ -6,7 +6,7 @@ public class ArmorItem : MonoBehaviour
     [SerializeField] private string armorName;
     [SerializeField] private ArmorSlot armorSlot;
     [SerializeField] private Sprite icon;
-    [SerializeField] private GameObject armorVisual;
+    [SerializeField] private Sprite armorSprite;
 
     [Header("Stat Modifiers")]
     [SerializeField] private int healthBonus;
@@ -18,7 +18,7 @@ public class ArmorItem : MonoBehaviour
     public string ArmorName => armorName;
     public ArmorSlot ArmorSlot => armorSlot;
     public Sprite Icon => icon;
-    public GameObject ArmorVisual => armorVisual;
+    public Sprite ArmorSprite => armorSprite;
 
     public int HealthBonus => healthBonus;
     public int AttackBonus => attackBonus;
